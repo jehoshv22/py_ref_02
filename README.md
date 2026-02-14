@@ -186,6 +186,22 @@ Configuration files:
 - `.flake8` - Flake8 configuration
 - `pyproject.toml` - Black and isort configuration
 
+## Continuous Integration
+
+This project uses **GitHub Actions** to automatically run linting and unit tests on every push and pull request.
+
+### Workflow
+The workflow defined in [.github/workflows/tests.yml](.github/workflows/tests.yml):
+- Runs on: Python 3.10, 3.11, and 3.12
+- **Linting**: Validates code style with flake8
+- **Testing**: Executes all unit tests with pytest
+- **Coverage**: Generates and uploads coverage reports to Codecov
+
+### Status Badge
+[![Lint and Test](https://github.com/<username>/<repo>/actions/workflows/tests.yml/badge.svg)](https://github.com/<username>/<repo>/actions/workflows/tests.yml)
+
+*Note: Update the username and repo in the badge URL*
+
 ## Test Coverage
 
 The test suite includes:
