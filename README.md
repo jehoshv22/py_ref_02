@@ -71,6 +71,36 @@ python run.py
 
 The API server will start at [http://localhost:5000](http://localhost:5000)
 
+## Running with Docker
+
+### Build Docker Image
+```bash
+docker build -t user-api:latest .
+```
+
+### Run Docker Container
+```bash
+docker run -p 5000:5000 user-api:latest
+```
+
+### Docker Compose (Optional)
+For more advanced deployments, create a `docker-compose.yml` file:
+```yaml
+version: '3.8'
+services:
+  api:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+```
+
+Then run:
+```bash
+docker-compose up
+```
+
 ## API Endpoints
 
 ### GET All Users
@@ -188,17 +218,26 @@ Configuration files:
 
 ## Continuous Integration
 
-This project uses **GitHub Actions** to automatically run linting and unit tests on every push and pull request.
+This project uses **GitHub Actions** to automatically run linting, unit tests, and Docker builds on every push and pull request.
 
 ### Workflow
-The workflow defined in [.github/workflows/tests.yml](.github/workflows/tests.yml):
+The workflow defined in [.github/workflows/ci.yml](.github/workflows/ci.yml) includes two jobs:
+
+**1. Lint and Test Job**
 - Runs on: Python 3.10, 3.11, and 3.12
 - **Linting**: Validates code style with flake8
 - **Testing**: Executes all unit tests with pytest
-- **Coverage**: Generates and uploads coverage reports to Codecov
+- **Coverage**: Generates both XML and HTML coverage reports
+- **Artifacts**: Exports coverage reports (XML and HTML) to pipeline artifacts (30-day retention)
+- **Codecov**: Uploads coverage reports to Codecov
+
+**2. Docker Build Job** (Runs on push to main/develop after tests pass)
+- **Build**: Builds Docker image using multi-stage build
+- **Cache**: Leverages GitHub Actions cache for faster builds
+- **Artifacts**: Exports Docker image tar file to pipeline artifacts (7-day retention)
 
 ### Status Badge
-[![Lint and Test](https://github.com/<username>/<repo>/actions/workflows/tests.yml/badge.svg)](https://github.com/<username>/<repo>/actions/workflows/tests.yml)
+[![CI/CD Pipeline](https://github.com/<username>/<repo>/actions/workflows/ci.yml/badge.svg)](https://github.com/<username>/<repo>/actions/workflows/ci.yml)
 
 *Note: Update the username and repo in the badge URL*
 
