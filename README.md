@@ -53,8 +53,14 @@ source venv/bin/activate
 
 ### 3. Install Dependencies
 
+For **production/runtime only**:
 ```bash
 pip install -r requirements.txt
+```
+
+For **development (includes testing and linting tools)**:
+```bash
+pip install -r requirements-dev.txt
 ```
 
 ## Running the Application
@@ -153,6 +159,32 @@ Run tests with verbose output:
 ```bash
 pytest -v
 ```
+
+## Code Quality & Linting
+
+The project includes tools for code formatting and linting:
+
+### Flake8 - Style Guide Enforcement
+Check code for style violations:
+```bash
+flake8 app tests
+```
+
+### Black - Code Formatter
+Automatically format code to match style standards:
+```bash
+black app tests
+```
+
+### isort - Import Sorting
+Automatically sort imports:
+```bash
+isort app tests
+```
+
+Configuration files:
+- `.flake8` - Flake8 configuration
+- `pyproject.toml` - Black and isort configuration
 
 ## Test Coverage
 
